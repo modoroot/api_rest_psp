@@ -1,0 +1,10 @@
+{
+"conexion":{
+        "server":"localhost",
+        "user":"root",
+        "password":"root",
+        "database":"universo",
+        "port": "3306"
+    }
+
+}
