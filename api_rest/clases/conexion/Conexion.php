@@ -90,7 +90,7 @@ class Conexion
 
     /**
      * Obtiene los datos de la base de datos y los devuelve en un array asociativo
-     * y devuelve el id del registro insertado
+     * y devuelve el ID del registro insertado
      * @param $sqlstr
      */
     public function nonQueryId($sqlstr)
@@ -102,8 +102,5 @@ class Conexion
         }else{
             return 0;
         }
-    }
-    protected function encriptar($pass){
-        return sha1($pass);
     }
 }
