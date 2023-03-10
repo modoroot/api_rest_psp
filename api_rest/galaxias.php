@@ -1,5 +1,5 @@
 <?php
-// Incluimos la clase Respuesta y UsuariosClass
+// Incluimos la clase Respuesta y GalaxiaClass
 require_once 'clases/Respuesta.php';
 require_once 'clases/GalaxiaClass.php';
 

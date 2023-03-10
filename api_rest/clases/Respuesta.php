@@ -8,7 +8,7 @@
 class Respuesta
 {
     /**
-     * $response Array que contiene la respuesta de la API REST
+     * @var array Respuesta por defecto en caso de éxito
      */
     public $response = [
         "status" => "ok",
@@ -16,7 +16,7 @@ class Respuesta
     ];
 
     /**
-     * @return array Devuelve la respuesta de la API REST
+     * @return array Método no permitido
      */
     public function error_405()
     {
@@ -29,7 +29,7 @@ class Respuesta
     }
 
     /**
-     * @return array Devuelve la respuesta de la API REST
+     * @return array Datos incorrectos
      */
     public function error_200($string = "Datos incorrectos")
     {
@@ -43,7 +43,7 @@ class Respuesta
 
     /**
      *
-     * @return array Devuelve la respuesta de la API REST
+     * @return array Solicitud incorrecta
      */
     public function error_400()
     {
@@ -57,7 +57,7 @@ class Respuesta
 
     /**
      *
-     * @return array Devuelve la respuesta de la API REST
+     * @return array Error interno del servidor
      */
     public function error_500($string = "Error interno del servidor")
     {
@@ -70,7 +70,7 @@ class Respuesta
     }
 
     /**
-     * @return array Devuelve la respuesta de la API REST
+     * @return array No autorizado
      */
     public function error_401($string = "No autorizado")
     {
