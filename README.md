@@ -47,3 +47,24 @@ Véase la documentación de la API para ver los métodos y parámetros de cada p
 ![Alt text](api_rest/img/ksnip_20230310-115735.png)
 
 # ENTREGA 5.1 PSP
+## Introducción
+---
+He implementado Google OAuth 2.0 para la autenticación y autorización de usuarios. Para ello, he creado una aplicación en la consola de desarrolladores de Google, y he configurado la API para que acepte peticiones de usuarios externos. El paquete de autenticación de Google OAuth 2.0 para PHP lo he implementado a través de Composer:
+    ```
+    composer require google/apiclient:"^2.0"
+    ```
+## Preguntas
+---
+### ¿Por qué es seguro el acceso a tu API REST usando autenticación y autorización?
+---
+Porque se utilizan tokens que garantizan la seguridad en el acceso. Cuando un usuario se autentifica, se genera un token que se utiliza para autorizar el acceso. Este token está cifrado y firmado digitalmente, por lo que solo el usuario que lo ha generado puede utilizarlo para acceder a la API.
+
+### ¿Se utiliza algún tipo de cifrado de la información, cuál?
+---
+Sí, se utiliza el cifrado AES en modo CBC (Cipher Block Chaining). El token incluye información como la identidad del usuario, la fecha de expiración, etc.
+
+### ¿De qué manera intervienen los sockets en la autenticación o en la autorización?
+---
+Los sockets se utilizan para la comunicación entre el cliente y el servidor. En este caso, la autenticación y autorización con Google OAuth se realiza mediante el intercambio de tokens cifrados entre el servidor de autenticación y la aplicación cliente (en este caso, la API). 
+
+Aunque los sockets no intervienen directamente en el proceso de autenticación o autorización con Google OAuth, la tecnología de comunicación segura basada en HTTP y HTTPS garantiza que la información transmitida esté protegida.
