@@ -50,7 +50,6 @@ Véase la documentación de la API para ver los métodos y parámetros de cada p
 ## Introducción
 ---
 He implementado Google OAuth 2.0 para la autenticación y autorización de usuarios. Para ello, he creado una aplicación en la consola de desarrolladores de Google, y he configurado la API para que acepte peticiones de usuarios externos. El paquete de autenticación de Google OAuth 2.0 para PHP lo he implementado a través de Composer, ejecutando en la terminal del sistema dentro del directorio padre:
-
     ```
     composer require google/apiclient:"^2.0"
     ```
