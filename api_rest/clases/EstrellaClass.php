@@ -12,10 +12,12 @@ class EstrellaClass extends Conexion
     private $masa = "";
     private $velocidad_escape = "";
     private $id_galaxia = "";
+    private $token_id = "";
+    private $email = "";
 
     public function listaElementos()
     {
-        $query = "SELECT * FROM " . $this->tabla ." ";
+        $query = "SELECT * FROM " . $this->tabla . " ";
         $datos = parent::obtenerDatos($query);
         return ($datos);
     }
@@ -54,22 +56,33 @@ class EstrellaClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['nombre'])) {
-            return $_respuesta->error_400();
+        if (!isset($datos['token_id']) || !isset($datos['email'])) {
+            return $_respuesta->error_400("No se ha enviado el token o el email");
         } else {
-            $this->nombre = $datos['nombre'];
-            $this->gravedad = $datos['gravedad'];
-            $this->radio = $datos['radio'];
-            $this->masa = $datos['masa'];
-            $this->velocidad_escape = $datos['velocidad_escape'];
-            $this->id_galaxia = $datos['id_galaxia'];
-            $verificar = $this->insertar();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array("id_estrella" => $verificar);
-                return $respuesta;
+            $this->token_id = $datos['token_id'];
+            $this->email = $datos['email'];
+            $arrayToken = $this->buscarTokenEmail();
+            if ($arrayToken) {
+                if (!isset($datos['nombre'])) {
+                    return $_respuesta->error_400("El nombre es obligatorio");
+                } else {
+                    $this->nombre = $datos['nombre'];
+                    $this->gravedad = $datos['gravedad'];
+                    $this->radio = $datos['radio'];
+                    $this->masa = $datos['masa'];
+                    $this->velocidad_escape = $datos['velocidad_escape'];
+                    $this->id_galaxia = $datos['id_galaxia'];
+                    $verificar = $this->insertar();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array("id_estrella" => $verificar);
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500();
+                    }
+                }
             } else {
-                return $_respuesta->error_500();
+                return $_respuesta->error_401("El token o el email no son correctos");
             }
         }
     }
@@ -94,38 +107,51 @@ class EstrellaClass extends Conexion
      * Actualiza un usuario en la base de datos por su id de usuario y el id_satelite
      * de acceso a la API REST
      */
-    public function put($json){
+    public function put($json)
+    {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['id_estrella'])) {
-            return $_respuesta->error_400();
+
+        if (!isset($datos['token_id']) || !isset($datos['email'])) {
+            return $_respuesta->error_400("No se ha enviado el token o el email");
         } else {
-            $this->id_estrella = $datos['id_estrella'];
-            if (isset($datos['nombre'])) {
-                $this->nombre = $datos['nombre'];
-            }
-            if (isset($datos['gravedad'])) {
-                $this->gravedad = $datos['gravedad'];
-            }
-            if (isset($datos['radio'])) {
-                $this->radio = $datos['radio'];
-            }
-            if (isset($datos['masa'])) {
-                $this->masa = $datos['masa'];
-            }
-            if (isset($datos['velocidad_escape'])) {
-                $this->velocidad_escape = $datos['velocidad_escape'];
-            }
-            if (isset($datos['id_galaxia'])) {
-                $this->id_galaxia = $datos['id_galaxia'];
-            }
-            $verificar = $this->actualizar();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array("id_estrella" => $this->id_estrella);
-                return $respuesta;
+            $this->token_id = $datos['token_id'];
+            $this->email = $datos['email'];
+            $arrayToken = $this->buscarTokenEmail();
+            if ($arrayToken) {
+                if (!isset($datos['id_estrella'])) {
+                    return $_respuesta->error_400("El id_estrella es obligatorio");
+                } else {
+                    $this->id_estrella = $datos['id_estrella'];
+                    if (isset($datos['nombre'])) {
+                        $this->nombre = $datos['nombre'];
+                    }
+                    if (isset($datos['gravedad'])) {
+                        $this->gravedad = $datos['gravedad'];
+                    }
+                    if (isset($datos['radio'])) {
+                        $this->radio = $datos['radio'];
+                    }
+                    if (isset($datos['masa'])) {
+                        $this->masa = $datos['masa'];
+                    }
+                    if (isset($datos['velocidad_escape'])) {
+                        $this->velocidad_escape = $datos['velocidad_escape'];
+                    }
+                    if (isset($datos['id_galaxia'])) {
+                        $this->id_galaxia = $datos['id_galaxia'];
+                    }
+                    $verificar = $this->actualizar();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array("id_estrella" => $this->id_estrella);
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500("Error al actualizar");
+                    }
+                }
             } else {
-                return $_respuesta->error_500("Error al actualizar");
+                return $_respuesta->error_401("El token o el email no son correctos");
             }
         }
     }
@@ -156,17 +182,28 @@ class EstrellaClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['id_estrella'])) {
-            return $_respuesta->error_400();
+        if (!isset($datos['token_id']) || !isset($datos['email'])) {
+            return $_respuesta->error_400("No se ha enviado el token o el email");
         } else {
-            $this->id_estrella = $datos['id_estrella'];
-            $verificar = $this->eliminar();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array("id_estrella" => $this->id_estrella);
-                return $respuesta;
+            $this->token_id = $datos['token_id'];
+            $this->email = $datos['email'];
+            $arrayToken = $this->buscarTokenEmail();
+            if ($arrayToken) {
+                if (!isset($datos['id_estrella'])) {
+                    return $_respuesta->error_400("El id_estrella es obligatorio");
+                } else {
+                    $this->id_estrella = $datos['id_estrella'];
+                    $verificar = $this->eliminar();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array("id_estrella" => $this->id_estrella);
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500();
+                    }
+                }
             } else {
-                return $_respuesta->error_500();
+                return $_respuesta->error_401("El token o el email no son correctos");
             }
         }
     }
@@ -185,4 +222,17 @@ class EstrellaClass extends Conexion
         }
     }
 
+    /**
+     * Busca un access_token en la base de datos por su id y devuelve el token o 0 si no se ha encontrado
+     */
+    private function buscarTokenEmail()
+    {
+        $query = "SELECT token_id, email FROM access_tokens WHERE token_id = '$this->token_id' AND email = '$this->email'";
+        $verificar = parent::obtenerDatos($query);
+        if ($verificar) {
+            return $verificar;
+        } else {
+            return 0;
+        }
+    }
 }

@@ -12,11 +12,14 @@ class PlanetaClass extends Conexion
     private $masa = "";
     private $velocidad_escape = "";
     private $id_satelite = "";
+    private $id_estrella = "";
+    private $token_id = "";
+    private $email = "";
 
 
     public function listaElementos()
     {
-        $query = "SELECT * FROM " . $this->tabla ." ";
+        $query = "SELECT * FROM " . $this->tabla . " ";
         $datos = parent::obtenerDatos($query);
         return ($datos);
     }
@@ -55,22 +58,40 @@ class PlanetaClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['nombre'])) {
-            return $_respuesta->error_400();
+
+        if (!isset($datos['token_id']) || !isset($datos['email'])) {
+            return $_respuesta->error_400("Faltan datos obligatorios");
         } else {
-            $this->nombre = $datos['nombre'];
-            $this->gravedad = $datos['gravedad'];
-            $this->radio = $datos['radio'];
-            $this->masa = $datos['masa'];
-            $this->velocidad_escape = $datos['velocidad_escape'];
-            $this->id_satelite = $datos['id_satelite'];
-            $verificar = $this->insertar();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array("id_planeta" => $verificar);
-                return $respuesta;
+            $this->token_id = $datos['token_id'];
+            $this->email = $datos['email'];
+            $arrayToken = $this->buscarTokenEmail();
+            if ($arrayToken) {
+                if (!isset($datos['nombre']) || !isset($datos['gravedad']) || !isset($datos['radio']) 
+                || !isset($datos['masa']) || !isset($datos['velocidad_escape']) || !isset($datos['id_estrella'])) {
+                    return $_respuesta->error_400("Faltan datos obligatorios");
+                }else{
+                    if (!isset($datos['nombre'])) {
+                        return $_respuesta->error_400("Faltan datos obligatorios");
+                    } else {
+                        $this->nombre = $datos['nombre'];
+                        $this->gravedad = $datos['gravedad'];
+                        $this->radio = $datos['radio'];
+                        $this->masa = $datos['masa'];
+                        $this->velocidad_escape = $datos['velocidad_escape'];
+                        $this->id_satelite = $datos['id_satelite'];
+                        $this->id_estrella = $datos['id_estrella'];
+                        $verificar = $this->insertar();
+                        if ($verificar) {
+                            $respuesta = $_respuesta->response;
+                            $respuesta["result"] = array("id_planeta" => $verificar);
+                            return $respuesta;
+                        } else {
+                            return $_respuesta->error_500();
+                        }
+                    }
+                }
             } else {
-                return $_respuesta->error_500();
+                return $_respuesta->error_401("No autorizado");
             }
         }
     }
@@ -80,9 +101,9 @@ class PlanetaClass extends Conexion
      */
     private function insertar()
     {
-        $query = "INSERT INTO " . $this->tabla . " (nombre, gravedad, radio, masa, velocidad_escape, id_satelite) VALUES ('"
+        $query = "INSERT INTO " . $this->tabla . " (nombre, gravedad, radio, masa, velocidad_escape, id_satelite, id_estrella) VALUES ('"
             . $this->nombre . "', '" . $this->gravedad . "', '" . $this->radio . "', '" . $this->masa . "', '"
-            . $this->velocidad_escape . "', '" . $this->id_satelite . "')";
+            . $this->velocidad_escape . "', '" . $this->id_satelite . "', '" . $this->id_estrella . "')";
         $verificar = parent::nonQueryId($query);
         if ($verificar) {
             return $verificar;
@@ -95,38 +116,44 @@ class PlanetaClass extends Conexion
      * Actualiza un usuario en la base de datos por su id de usuario y el id_satelite
      * de acceso a la API REST
      */
-    public function put($json){
+    public function put($json)
+    {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['id_planeta'])) {
-            return $_respuesta->error_400();
+
+        if (!isset($datos['token_id']) || !isset($datos['email'])) {
+            return $_respuesta->error_400("Faltan datos obligatorios");
         } else {
-            $this->id_planeta = $datos['id_planeta'];
-            if (isset($datos['nombre'])) {
-                $this->nombre = $datos['nombre'];
-            }
-            if (isset($datos['gravedad'])) {
-                $this->gravedad = $datos['gravedad'];
-            }
-            if (isset($datos['radio'])) {
-                $this->radio = $datos['radio'];
-            }
-            if (isset($datos['masa'])) {
-                $this->masa = $datos['masa'];
-            }
-            if (isset($datos['velocidad_escape'])) {
-                $this->velocidad_escape = $datos['velocidad_escape'];
-            }
-            if (isset($datos['id_satelite'])) {
-                $this->id_satelite = $datos['id_satelite'];
-            }
-            $verificar = $this->actualizar();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array("id_planeta" => $this->id_planeta);
-                return $respuesta;
+            $this->token_id = $datos['token_id'];
+            $this->email = $datos['email'];
+            $arrayToken = $this->buscarTokenEmail();
+            if ($arrayToken) {
+                if (!isset($datos['id_planeta'])) {
+                    return $_respuesta->error_400("Falta el id_planeta");
+                }else{
+                    $this->id_planeta = $datos['id_planeta'];
+                    if (!isset($datos['nombre'])) {
+                        return $_respuesta->error_400("Faltan datos obligatorios");
+                    } else {
+                        $this->nombre = $datos['nombre'];
+                        $this->gravedad = $datos['gravedad'];
+                        $this->radio = $datos['radio'];
+                        $this->masa = $datos['masa'];
+                        $this->velocidad_escape = $datos['velocidad_escape'];
+                        $this->id_satelite = $datos['id_satelite'];
+                        $this->id_estrella = $datos['id_estrella'];
+                        $verificar = $this->actualizar();
+                        if ($verificar) {
+                            $respuesta = $_respuesta->response;
+                            $respuesta["result"] = array("id_planeta" => $this->id_planeta);
+                            return $respuesta;
+                        } else {
+                            return $_respuesta->error_500();
+                        }
+                    }
+                }
             } else {
-                return $_respuesta->error_500("Error al actualizar");
+                return $_respuesta->error_401("No autorizado");
             }
         }
     }
@@ -139,7 +166,7 @@ class PlanetaClass extends Conexion
     {
         $query = "UPDATE " . $this->tabla . " SET nombre = '" . $this->nombre . "', gravedad = '" . $this->gravedad
             . "', radio = '" . $this->radio . "', masa = '" . $this->masa . "', velocidad_escape = '"
-            . $this->velocidad_escape . "', id_satelite = '" . $this->id_satelite . "' WHERE id_planeta = " . $this->id_planeta;
+            . $this->velocidad_escape . "', id_satelite = '" . $this->id_satelite . "', id_estrella = '" . $this->id_estrella . "' WHERE id_planeta = " . $this->id_planeta;
         $verificar = parent::nonQuery($query);
 
         if ($verificar >= 1) {
@@ -157,19 +184,33 @@ class PlanetaClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['id_planeta'])) {
-            return $_respuesta->error_400();
-        } else {
-            $this->id_planeta = $datos['id_planeta'];
-            $verificar = $this->eliminar();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array("id_planeta" => $this->id_planeta);
-                return $respuesta;
-            } else {
-                return $_respuesta->error_500();
+
+        if(!isset($datos['token_id']) || !isset($datos['email'])){
+            return $_respuesta->error_400("Faltan datos obligatorios");
+        }else{
+            $this->token_id = $datos['token_id'];
+            $this->email = $datos['email'];
+            $arrayToken = $this->buscarTokenEmail();
+            if($arrayToken){
+                if (!isset($datos['id_planeta'])) {
+                    return $_respuesta->error_400("Falta el id_planeta");
+                } else {
+                    $this->id_planeta = $datos['id_planeta'];
+                    $verificar = $this->eliminar();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array("id_planeta" => $this->id_planeta);
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500();
+                    }
+                }
+            }else{
+                return $_respuesta->error_401("No autorizado");
             }
         }
+
+        
     }
 
     /**
@@ -185,7 +226,17 @@ class PlanetaClass extends Conexion
             return 0;
         }
     }
-
-
-
+    /**
+     * Busca un access_token en la base de datos por su id y devuelve el token o 0 si no se ha encontrado
+     */
+    private function buscarTokenEmail()
+    {
+        $query = "SELECT token_id, email FROM access_tokens WHERE token_id = '$this->token_id' AND email = '$this->email'";
+        $verificar = parent::obtenerDatos($query);
+        if ($verificar) {
+            return $verificar;
+        } else {
+            return 0;
+        }
+    }
 }

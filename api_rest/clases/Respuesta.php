@@ -45,12 +45,12 @@ class Respuesta
      *
      * @return array Solicitud incorrecta
      */
-    public function error_400()
+    public function error_400($string)
     {
         $this->response['status'] = "error";
         $this->response['result'] = array(
             "error_id" => "400",
-            "error_msg" => "Solicitud incorrecta"
+            "error_msg" => $string
         );
         return $this->response;
     }
