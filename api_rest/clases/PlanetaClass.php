@@ -24,7 +24,7 @@ class PlanetaClass extends Conexion
         return ($datos);
     }
     /**
-     * Lista los usuarios de la base de datos y los devuelve en un array asociativo paginado de 3 en 3
+     * Lista los registros de la base de datos y los devuelve en un array asociativo paginado de 3 en 3
      * @param int $pagina
      * @return array
      */
@@ -42,7 +42,7 @@ class PlanetaClass extends Conexion
     }
 
     /**
-     * Obtiene los datos de un usuario a través de su id de usuario y los devuelve en un array asociativo
+     * Obtiene los datos de un registro los devuelve en un array asociativo
      */
     public function obtenerUno($id_planeta)
     {
@@ -52,7 +52,7 @@ class PlanetaClass extends Conexion
     }
 
     /**
-     * Se añade un nuevo usuario a la base de datos a través de un JSON recibido por POST
+     * Se añade un nuevo registro a la base de datos a través de un JSON recibido por POST
      */
     public function post($json)
     {
@@ -97,7 +97,7 @@ class PlanetaClass extends Conexion
     }
 
     /**
-     * Inserta un usuario en la base de datos
+     * Inserta un registro en la base de datos a través de los datos recibidos por POST
      */
     private function insertar()
     {
@@ -113,8 +113,7 @@ class PlanetaClass extends Conexion
     }
 
     /**
-     * Actualiza un usuario en la base de datos por su id de usuario y el id_satelite
-     * de acceso a la API REST
+     * Actualiza un usuario en la base de datos por su id_planeta a través de los datos recibidos por PUT
      */
     public function put($json)
     {
@@ -159,8 +158,7 @@ class PlanetaClass extends Conexion
     }
 
     /**
-     * Actualiza un usuario en la base de datos por su id de usuario y el id_satelite
-     * de acceso a la API REST
+     * Actualiza un registro en la base de datos a través de los datos recibidos por PUT
      */
     private function actualizar()
     {
@@ -177,8 +175,8 @@ class PlanetaClass extends Conexion
     }
 
     /**
-     * Elimina un usuario de la base de datos por su id de usuario y el id_satelite
-     * de acceso a la API REST
+     * Elimina un usuario de la base de datos por su id_planeta 
+     * a través de los datos recibidos por DELETE
      */
     public function delete($json)
     {

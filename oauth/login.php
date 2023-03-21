@@ -50,9 +50,8 @@ if (isset($_GET['code'])) {
 
     // Se muestra el nombre y el correo electrónico del usuario y se incluye el 
     // fichero index.php de la API REST, que es una pequeña guía de uso
-    echo "Name: " . $name . "<br>";
+    echo "Nombre: " . $name . "<br>";
     echo "Email: " . $email . "<br>";
-    echo "Access Token (úsalo para usar la API): " . $_SESSION['access_token']['access_token'] . "<br>";
 
     // Insertar datos del usuario en la base de datos
     $con = new Conexion();

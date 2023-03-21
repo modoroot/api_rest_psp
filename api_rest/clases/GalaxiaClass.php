@@ -20,7 +20,7 @@ class GalaxiaClass extends Conexion
         return ($datos);
     }
     /**
-     * Lista los usuarios de la base de datos y los devuelve en un array asociativo paginado de 3 en 3
+     * Lista los registros de la base de datos y los devuelve en un array asociativo paginado de 3 en 3
      * @param int $pagina
      * @return array
      */
@@ -38,7 +38,7 @@ class GalaxiaClass extends Conexion
     }
 
     /**
-     * Obtiene los datos de un usuario a través de su id de usuario y los devuelve en un array asociativo
+     * Obtiene los datos de un registro a partir de su id y los devuelve en un array asociativo
      */
     public function obtenerUno($id_galaxia)
     {
@@ -48,7 +48,7 @@ class GalaxiaClass extends Conexion
     }
 
     /**
-     * Se añade un nuevo usuario a la base de datos a través de un JSON recibido por POST
+     * Se añade un nuevo registro a la base de datos a través de un JSON recibido por POST
      */
     public function post($json)
     {
@@ -96,8 +96,8 @@ class GalaxiaClass extends Conexion
     }
 
     /**
-     * Actualiza un usuario en la base de datos por su id de usuario y el id_satelite
-     * de acceso a la API REST
+     * Actualiza un registro en la base de datos por su id 
+     * a partir de un JSON recibido por PUT
      */
     public function put($json)
     {
@@ -188,7 +188,7 @@ class GalaxiaClass extends Conexion
     }
 
     /**
-     * Elimina un planeta de la base de datos por su id y devuelve el ID del planeta eliminado o 0 si no se ha podido eliminar
+     * Elimina un registro de la base de datos por su id y devuelve el ID eliminado o 0 si no se ha podido eliminar
      */
     private function eliminar()
     {

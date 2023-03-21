@@ -22,7 +22,7 @@ class EstrellaClass extends Conexion
         return ($datos);
     }
     /**
-     * Lista los usuarios de la base de datos y los devuelve en un array asociativo paginado de 3 en 3
+     * Lista los registros de la base de datos y los devuelve en un array asociativo paginado de 3 en 3
      * @param int $pagina
      * @return array
      */
@@ -40,7 +40,7 @@ class EstrellaClass extends Conexion
     }
 
     /**
-     * Obtiene los datos de un usuario a través de su id de usuario y los devuelve en un array asociativo
+     * Obtiene los datos de un registro a través de su id y los devuelve en un array asociativo
      */
     public function obtenerUno($id_estrella)
     {
@@ -50,7 +50,7 @@ class EstrellaClass extends Conexion
     }
 
     /**
-     * Se añade un nuevo usuario a la base de datos a través de un JSON recibido por POST
+     * Se añade un nuevo registro a la base de datos a través de un JSON recibido por POST
      */
     public function post($json)
     {
@@ -104,8 +104,7 @@ class EstrellaClass extends Conexion
     }
 
     /**
-     * Actualiza un usuario en la base de datos por su id de usuario y el id_satelite
-     * de acceso a la API REST
+     * Actualiza un registro en la base de datos a través de un JSON recibido por PUT
      */
     public function put($json)
     {
@@ -175,8 +174,7 @@ class EstrellaClass extends Conexion
     }
 
     /**
-     * Elimina un usuario de la base de datos por su id de usuario y el id_satelite
-     * de acceso a la API REST
+     * Elimina un registro de la base de datos a través de un JSON recibido por DELETE
      */
     public function delete($json)
     {
