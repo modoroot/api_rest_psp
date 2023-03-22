@@ -247,7 +247,7 @@ $datos = $conexion->obtenerDatos($sql);
             success: function(response) {
               // Elimina la fila correspondiente de la tabla (NO SE MUESTRAN LOS REGISTROS ACTUALIZADOS AL BORRAR UNO)
               $('tr[data-token="' + id_access_token + '"]').remove();
-              alert('Token eliminado');
+              alert('Token eliminado (no se muestran los registros actualizados)');
             }
           });
         }
